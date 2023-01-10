@@ -52,7 +52,7 @@ fn main() {
 
         // let user put how much scrap for the bet
         let scrap_bet = get_scrap_bet(&mut scrap);
-
+        println!("{:#?}", &scrap_bet);
         // check if player have enough scrap to bet
         match scrap_bet {
             Ok(s) => {
@@ -60,7 +60,7 @@ fn main() {
                 println!("You bet {} scrap", s);
             }
             Err(e) => {
-                println!("{}", e);
+                println!("{}", &e);
             }
         }
 
@@ -73,14 +73,23 @@ fn main() {
         // check if the user won
         if spun_number == bet {
             // multiply the user's bet by the number they bet on
-            let winnings = bet * roulette_wheel[bet as usize];
-            // pay out the winnings to the user
-            pay_out(winnings);
+            match scrap_bet {
+                Ok(s) => {
+                    let winnings = s * roulette_wheel[bet as usize];
+                    // pay out the winnings to the user
+                    pay_out(winnings);
+                }
+                Err(e) => {
+                    println!("{}", e);
+                }
+            }
+            
             break;
         } else {
             // the user lost, so don't pay out anything
             println!("Sorry, you lost. Better luck next time!")
         }
+
     }
 }
 
