@@ -43,8 +43,10 @@ fn random_number_between(min: usize, max: usize) -> usize {
     rand::thread_rng().gen_range(min..max)
 }
 
-fn pay_out(amount: i32) {
-    println!("You won {} Scraps!", amount);
+fn pay_out(amount: i32, scrap: &mut i32) {
+    println!("You won {} Scraps!", &amount);
+    *scrap = amount + *scrap;
+    println!("Your current scrap is: {}", scrap);
 }
 
 fn play_again(keep_playing: &mut bool) {
@@ -93,7 +95,7 @@ fn main() {
                 Ok(s) => {
                     let winnings = s * spun_number + s;
                     // pay out the winnings to the user
-                    pay_out(winnings);
+                    pay_out(winnings, &mut scrap);
                     play_again(&mut keep_playing);
                 }
                 Err(e) => {
