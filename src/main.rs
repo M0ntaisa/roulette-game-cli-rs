@@ -23,7 +23,14 @@ fn get_scrap_bet(scrap: &mut i32) -> Result<i32, String> {
         Ok(num) => num,
         Err(_) => return Err("Invalid input, please enter a number.".to_string())
     };
+    
+    // check if player have enough scrap to bet
+    if scrap_in > *scrap {
+        return Err("You don't have enought scrap to bet!".to_string());
+    }
     *scrap = *scrap - scrap_in;
+    println!("Your current scrap is: {}", scrap);
+    println!("You bet {} scrap", scrap_in);
     Ok(scrap_in)
 }
 
@@ -53,29 +60,19 @@ fn main() {
         // let user put how much scrap for the bet
         let scrap_bet = get_scrap_bet(&mut scrap);
         println!("{:#?}", &scrap_bet);
-        // check if player have enough scrap to bet
-        match scrap_bet {
-            Ok(s) => {
-                println!("Your current scrap is: {}", scrap);
-                println!("You bet {} scrap", s);
-            }
-            Err(e) => {
-                println!("{}", &e);
-            }
-        }
 
         // let the user place their bet
         let bet = get_user_bet();
 
         // spin the roulette wheel
         let spun_number = roulette_wheel[random_number_between(0, roulette_wheel.len() - 1)];
-        println!("{}", &spun_number);
+        println!("spun number is {}", &spun_number);
         // check if the user won
         if spun_number == bet {
             // multiply the user's bet by the number they bet on
             match scrap_bet {
                 Ok(s) => {
-                    let winnings = s * roulette_wheel[bet as usize];
+                    let winnings = s * spun_number + s;
                     // pay out the winnings to the user
                     pay_out(winnings);
                 }
