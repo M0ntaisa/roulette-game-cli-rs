@@ -1,5 +1,6 @@
 use rand::{seq::SliceRandom, Rng};
 
+// TODO :: change this to option input
 fn get_user_bet() -> i32 {
     println!("Enter your bet:");
     let mut bet = String::new();
@@ -14,18 +15,16 @@ fn get_user_bet() -> i32 {
     bet
 }
 
-fn get_scrap_bet() -> i32 {
+fn get_scrap_bet(scrap: &mut i32) -> Result<i32, String> {
     println!("Enter scrap:");
-    let mut scrap = String::new();
-    std::io::stdin().read_line(&mut scrap).expect("Failed to read line");
-    let scrap: i32 = match scrap.trim().parse() {
+    let mut scrap_in = String::new();
+    std::io::stdin().read_line(&mut scrap_in).expect("Failed to read line");
+    let scrap_in: i32 = match scrap_in.trim().parse() {
         Ok(num) => num,
-        Err(_) => {
-            println!("Invalid input. Please enter a number.");
-            get_scrap_bet()
-        }
+        Err(_) => return Err("Invalid input, please enter a number.".to_string())
     };
-    scrap
+    *scrap = *scrap - scrap_in;
+    Ok(scrap_in)
 }
 
 fn shuffle(roulette_wheel: &mut [i32]) {
@@ -52,7 +51,18 @@ fn main() {
         shuffle(&mut roulette_wheel);
 
         // let user put how much scrap for the bet
-        let scrap_bet = get_scrap_bet();
+        let scrap_bet = get_scrap_bet(&mut scrap);
+
+        // check if player have enough scrap to bet
+        match scrap_bet {
+            Ok(s) => {
+                println!("Your current scrap is: {}", scrap);
+                println!("You bet {} scrap", s);
+            }
+            Err(e) => {
+                println!("{}", e);
+            }
+        }
 
         // let the user place their bet
         let bet = get_user_bet();
@@ -74,4 +84,4 @@ fn main() {
     }
 }
 
-// TODO : scrap bet still not working, make it work!
+// TODO : make and option if the game is over, wanna play again or not
