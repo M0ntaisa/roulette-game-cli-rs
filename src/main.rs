@@ -47,13 +47,32 @@ fn pay_out(amount: i32) {
     println!("You won {} Scraps!", amount);
 }
 
+fn play_again(keep_playing: &mut bool) {
+    println!("Do you want to continue playaing? (y/n)");
+    let mut input = String::new();
+    std::io::stdin().read_line(&mut input).expect("Failed to readline");
+
+    match input.trim() {
+        "n" => {
+            println!("Thanks for playing");
+            *keep_playing = false
+        },
+        "y" => *keep_playing = true,
+        _ => {
+            println!("Invalid input, Please enter 'y' or 'n'.");
+            *keep_playing = true;
+        }
+    }
+}
+
 fn main() {
     println!("Welcome to the roulette table!");
 
     let mut roulette_wheel: &mut [i32] = &mut [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 5, 5, 5, 5, 10, 10, 20];
     let mut scrap: i32 = 1000;
+    let mut keep_playing = true;
 
-    loop {
+    while keep_playing {
         // shuffle the numbers in the roulette_wheel array
         shuffle(&mut roulette_wheel);
 
@@ -75,16 +94,17 @@ fn main() {
                     let winnings = s * spun_number + s;
                     // pay out the winnings to the user
                     pay_out(winnings);
+                    play_again(&mut keep_playing);
                 }
                 Err(e) => {
                     println!("{}", e);
                 }
             }
             
-            break;
         } else {
             // the user lost, so don't pay out anything
-            println!("Sorry, you lost. Better luck next time!")
+            println!("Sorry, you lost. Better luck next time!");
+            play_again(&mut keep_playing);
         }
 
     }
