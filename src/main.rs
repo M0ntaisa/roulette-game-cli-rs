@@ -2,15 +2,16 @@ use rand::{seq::SliceRandom, Rng};
 
 // TODO :: change this to option input
 fn get_user_bet() -> i32 {
-    println!("Enter your wheel bet [1/3/5/10/20]:");
+    println!("Enter your wheel bet [1, 3, 5, 10, 20]:");
     let mut bet = String::new();
     std::io::stdin().read_line(&mut bet).expect("Failed to read line");
-    let bet: i32 = match bet.trim().parse() {
-      Ok(num) => num,
-      Err(_) => {
-        println!("Invalid input. Please enter a number.");
-        get_user_bet()
-      }
+    let bet_option = bet.trim();
+    let bet: i32 = match bet_option {
+        "1" | "3" | "5" | "10" | "20" => bet_option.parse().unwrap(),
+        _ => {
+            println!("Invalid input. Please enter a valid option.");
+            get_user_bet()
+        }
     };
     bet
 }
