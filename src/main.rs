@@ -2,7 +2,7 @@ use rand::{seq::SliceRandom, Rng};
 
 // TODO :: change this to option input
 fn get_user_bet() -> i32 {
-    println!("Enter your bet:");
+    println!("Enter your wheel bet [1/3/5/10/20]:");
     let mut bet = String::new();
     std::io::stdin().read_line(&mut bet).expect("Failed to read line");
     let bet: i32 = match bet.trim().parse() {
@@ -75,6 +75,9 @@ fn main() {
     let mut keep_playing = true;
 
     while keep_playing {
+        // print scrap amount
+        println!("You have {} Scraps", &scrap);
+
         // shuffle the numbers in the roulette_wheel array
         shuffle(&mut roulette_wheel);
 
