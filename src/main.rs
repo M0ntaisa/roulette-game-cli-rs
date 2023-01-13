@@ -70,7 +70,7 @@ fn play_again(keep_playing: &mut bool) {
 fn main() {
     println!("Welcome to the roulette table!");
 
-    let mut roulette_wheel: &mut [i32] = &mut [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 5, 5, 5, 5, 10, 10, 20];
+    let mut roulette_wheel: &mut [i32] = &mut [1, 3, 1, 5, 1, 3, 1, 10, 1, 3, 1, 5, 1, 5, 3, 1, 10, 1, 3, 1, 5, 1, 3, 1, 20];
     let mut scrap: i32 = 1000;
     let mut keep_playing = true;
 
