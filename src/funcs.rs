@@ -28,10 +28,11 @@ pub fn get_scrap_bet(scrap: &mut i32) -> Result<i32, String> {
   
   // check if player have enough scrap to bet
   if scrap_in > *scrap {
-      return Err("You don't have enought scrap to bet!".to_string());
+      println!("You don't have enought scrap to bet!");
+      return get_scrap_bet(scrap);
   }
   *scrap = *scrap - scrap_in;
-  println!("Your current scrap is: {}", scrap);
+  println!("Your current scrap is: {}", *scrap);
   println!("You bet {} scrap", scrap_in);
   Ok(scrap_in)
 }
