@@ -10,6 +10,13 @@ fn main() {
     let mut keep_playing = true;
 
     while keep_playing {
+        
+        // check scraps amount
+        if scrap == 0 {
+            println!("You lost all your scrap! maybe luck with you next time.");
+            break;
+        } 
+
         // print scrap amount
         println!("You have {} Scraps", &scrap);
 
